@@ -1,221 +1,238 @@
 "use client";
 
+import { addDestination } from "@/lib/Action";
 import {
+    Button,
+    Card,
     FieldError,
     Input,
     Label,
-    TextField,
+    ListBox,
+    Select,
     TextArea,
-    Button,
-    Card,
+    TextField,
 } from "@heroui/react";
+import { FiCalendar, FiTrello } from "react-icons/fi";
 
-const AddDestinationPage = () => {
-
-    const onSubmit = async (e) => {
-        e.preventDefault();
-
-        const formData = new FormData(e.currentTarget);
-
-        const destination = Object.fromEntries(formData.entries());
-
-        // Convert price to number
-        destination.price = Number(destination.price);
-
-        try {
-            const res = await fetch(
-                `http://localhost:8000/destination`,
-                {
-                    method: "POST",
-                    headers: {
-                        "content-type": "application/json",
-                    },
-                    body: JSON.stringify(destination),
-                }
-            );
-
-            const data = await res.json();
-
-
-            if (data.insertedId) {
-                alert("Destination Added Successfully!");
-                e.target.reset();
-            }
-
-        } catch (error) {
-            console.log(error);
-        }
-    };
+const AddTravelPackagePage = () => {
 
     return (
-        <div className="p-5">
-            <h1 className="text-2xl font-bold text-center mb-6">
-                Add Destination
-            </h1>
+        <div className="min-h-screen bg-[#f5f5f5] py-12 px-4">
+            <div className="max-w-5xl mx-auto">
+                {/* Heading */}
+                <h1 className="text-5xl font-light text-black mb-10">
+                    Add New Travel Package
+                </h1>
 
-            <Card>
-                <form
-                    onSubmit={onSubmit}
-                    className="p-10 space-y-8 max-w-3xl mx-auto"
-                >
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Form Card */}
+                <Card className="p-8 md:p-10 border border-gray-200 rounded-none shadow-none bg-white">
+                    <form
+                        // onSubmit={handleSubmit}
+                        action={addDestination}
+                        className="space-y-8"
+                    >
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {/* Destination Name */}
+                            <div className="md:col-span-2">
+                                <TextField
+                                    name="destinationName"
+                                    isRequired
+                                >
+                                    <Label className="mb-2 block text-sm font-medium text-black">
+                                        Destination Name
+                                    </Label>
 
-                        {/* Destination Name */}
-                        <div className="md:col-span-2">
-                            <TextField name="destinationName" isRequired>
-                                <Label>Destination Name</Label>
+                                    <Input
+                                        placeholder="Bali Paradise"
+                                        className="w-full"
+                                    />
 
-                                <Input
-                                    placeholder="Bali Paradise"
-                                    className="rounded-2xl"
-                                />
+                                    <FieldError />
+                                </TextField>
+                            </div>
 
-                                <FieldError />
-                            </TextField>
-                        </div>
-
-                        {/* Country */}
-                        <TextField name="country" isRequired>
-                            <Label>Country</Label>
-
-                            <Input
-                                placeholder="Indonesia"
-                                className="rounded-2xl"
-                            />
-
-                            <FieldError />
-                        </TextField>
-
-                        {/* Category */}
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium">
-                                Category
-                            </label>
-
-                            <select
-                                name="category"
-                                required
-                                className="w-full border rounded-2xl px-4 py-3 outline-none"
-                            >
-                                <option value="">
-                                    Select Category
-                                </option>
-
-                                <option value="Beach">
-                                    Beach
-                                </option>
-
-                                <option value="Mountain">
-                                    Mountain
-                                </option>
-
-                                <option value="City">
-                                    City
-                                </option>
-
-                                <option value="Adventure">
-                                    Adventure
-                                </option>
-
-                                <option value="Cultural">
-                                    Cultural
-                                </option>
-
-                                <option value="Luxury">
-                                    Luxury
-                                </option>
-                            </select>
-                        </div>
-
-                        {/* Price */}
-                        <TextField
-                            name="price"
-                            type="number"
-                            isRequired
-                        >
-                            <Label>Price (USD)</Label>
-
-                            <Input
-                                type="number"
-                                placeholder="1299"
-                                className="rounded-2xl"
-                            />
-
-                            <FieldError />
-                        </TextField>
-
-                        {/* Duration */}
-                        <TextField name="duration" isRequired>
-                            <Label>Duration</Label>
-
-                            <Input
-                                placeholder="7 Days / 6 Nights"
-                                className="rounded-2xl"
-                            />
-
-                            <FieldError />
-                        </TextField>
-
-                        {/* Departure Date */}
-                        <div className="md:col-span-2">
+                            {/* Country */}
                             <TextField
-                                name="departureDate"
-                                type="date"
+                                name="country"
                                 isRequired
                             >
-                                <Label>Departure Date</Label>
+                                <Label className="mb-2 block text-sm font-medium text-black">
+                                    Country
+                                </Label>
 
                                 <Input
+                                    placeholder="Indonesia"
+                                />
+
+                                <FieldError />
+                            </TextField>
+
+                            {/* Category */}
+                            <div>
+                                <Label className="mb-2 block text-sm font-medium text-black">
+                                    Category
+                                </Label>
+
+                                <Select
+                                    name="category"
+                                    placeholder="Beach"
+                                    className="w-full"
+                                >
+                                    <Select.Trigger>
+                                        <Select.Value />
+                                        <Select.Indicator />
+                                    </Select.Trigger>
+
+                                    <Select.Popover>
+                                        <ListBox>
+                                            <ListBox.Item id="Beach">
+                                                Beach
+                                            </ListBox.Item>
+
+                                            <ListBox.Item id="Mountain">
+                                                Mountain
+                                            </ListBox.Item>
+
+                                            <ListBox.Item id="Adventure">
+                                                Adventure
+                                            </ListBox.Item>
+
+                                            <ListBox.Item id="Luxury">
+                                                Luxury
+                                            </ListBox.Item>
+
+                                            <ListBox.Item id="City">
+                                                City
+                                            </ListBox.Item>
+                                            <ListBox.Item id="Forest">
+                                                Forest
+                                            </ListBox.Item>
+                                        </ListBox>
+                                    </Select.Popover>
+                                </Select>
+                            </div>
+
+                            {/* Price */}
+                            <TextField
+                                name="price"
+                                type="number"
+                                isRequired
+                            >
+                                <Label className="mb-2 block text-sm font-medium text-black">
+                                    Price (USD)
+                                </Label>
+
+                                <Input
+                                    type="number"
+                                    placeholder="e.g., 1299"
+                                />
+
+                                <FieldError />
+                            </TextField>
+
+                            {/* Duration */}
+                            <TextField
+                                name="duration"
+                                isRequired
+                            >
+                                <Label className="mb-2 block text-sm font-medium text-black">
+                                    Duration
+                                </Label>
+
+                                <Input
+                                    placeholder="e.g., 7 Days/6 Nights"
+                                />
+
+                                <FieldError />
+                            </TextField>
+
+                            {/* Departure Date */}
+                            <div className="md:col-span-2">
+                                <TextField
+                                    name="departureDate"
                                     type="date"
-                                    className="rounded-2xl"
-                                />
+                                    isRequired
+                                >
+                                    <Label className="mb-2 block text-sm font-medium text-black">
+                                        Departure Date
+                                    </Label>
 
-                                <FieldError />
-                            </TextField>
-                        </div>
+                                    <div className="relative">
+                                        <Input type="date" />
 
-                        {/* Image URL */}
-                        {/* <div className="md:col-span-2">
-                            <TextField name="imageUrl" isRequired>
-                                <Label>Image URL</Label>
+                                        <FiCalendar
+                                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+                                            size={18}
+                                        />
+                                    </div>
 
-                                <Input
-                                    type="url"
-                                    placeholder="https://example.com/image.jpg"
-                                    className="rounded-2xl"
-                                />
+                                    <FieldError />
+                                </TextField>
+                            </div>
 
-                                <FieldError />
-                            </TextField>
-                        </div> */}
+                            {/* Image URL */}
+                            <div className="md:col-span-2">
+                                <TextField
+                                    name="imageUrl"
+                                    isRequired
+                                >
+                                    <Label className="mb-2 block text-sm font-medium text-black">
+                                        Image URL
+                                    </Label>
 
-                        {/* Description */}
-                        <div className="md:col-span-2">
-                            <TextField isRequired>
-                                <Label>Description</Label>
+                                    <Input
+                                        type="url"
+                                        placeholder="https://example.com/image.jpg"
+                                    />
 
-                                <TextArea
+                                    <FieldError />
+                                </TextField>
+                            </div>
+
+                            {/* Description */}
+                            <div className="md:col-span-2">
+                                <TextField
                                     name="description"
-                                    placeholder="Describe the travel experience..."
-                                    className="rounded-3xl"
-                                />
+                                    isRequired
+                                >
+                                    <Label className="mb-2 block text-sm font-medium text-black">
+                                        Description
+                                    </Label>
 
-                                <FieldError />
-                            </TextField>
+                                    <TextArea
+                                        name="description"
+                                        rows={6}
+                                        placeholder="Describe the travel experience..."
+                                    />
+
+                                    <FieldError />
+                                </TextField>
+                            </div>
                         </div>
-                    </div>
 
-                    {/* Submit Button */}
-                    <Button
-                        type="submit"
-                        className="w-full bg-cyan-500 text-white rounded-2xl"
-                    >
-                        Add Destination
-                    </Button>
-                </form>
-            </Card>
+                        {/* Buttons */}
+                        <div className="flex items-center justify-end gap-4 pt-4">
+                            <Button
+                                type="button"
+                                variant="outline"
+                                className="border border-red-400 text-red-500 rounded-none px-6"
+                            >
+                                <FiTrello size={16} />
+                                Cancel
+                            </Button>
+
+                            <Button
+                                type="submit"
+                                className="bg-cyan-500 hover:bg-cyan-600 text-white rounded-none px-6"
+                            >
+                                Add Travel Package
+                            </Button>
+                        </div>
+                    </form>
+                </Card>
+            </div>
         </div>
     );
 };
 
-export default AddDestinationPage;
+export default AddTravelPackagePage;
