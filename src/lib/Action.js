@@ -1,4 +1,5 @@
-import { revalidatePath } from "next/cache";
+
+import { redirect } from "next/navigation";
 
 export const addDestination = async (formData) => {
   const destination = Object.fromEntries(formData.entries());
@@ -29,9 +30,17 @@ export const updateDestination = async (id, formData) => {
   });
   const data = await res.json();
 
-  if (data.modifyCount > 0) {
-    revalidatePath(`http://localhost:8000/destination/${id}`);
-  }
+  return data;
+};
+
+export const deleteDestination = async (id) => {
+  const res = await fetch(`http://localhost:8000/destination/${id}`, {
+    method: "DELETE",
+  });
+
+  const data = await res.json();
+  redirect("/destination")
+  
 
   return data;
 };

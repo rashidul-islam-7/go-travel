@@ -1,11 +1,12 @@
 import React from 'react'
-import { getDestinations } from '@/lib/Data';
+import { getDestinations, getIdData } from '@/lib/Data';
 import DestinationCard from '@/components/ui/DestinationCard';
 
 
 async function DestinationPage() {
+
   const destinations = await getDestinations();
- 
+  console.log(destinations)
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-16">
@@ -23,7 +24,7 @@ async function DestinationPage() {
 
       {/* Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-        {destinations.map((item) => <DestinationCard key={item._id} destinationData={item} />)}
+        {destinations.map((item) => <DestinationCard key={item._id} getIdData={getIdData} destinationData={item} />)}
       </div>
     </section>
   )

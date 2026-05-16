@@ -5,8 +5,9 @@ import { HiArrowRight } from 'react-icons/hi';
 import { Input } from '@heroui/react';
 import Image from 'next/image';
 import EditModal from '@/components/ui/EditModal';
+import DeleteDestination from '@/components/ui/DeleteDestination';
 
-const DestinationDetails = async ({ params }) => {
+const DestinationDetails = async ({ params}) => {
 
     const { destinationId } = await params;
     const destinationData = await getIdData(destinationId);
@@ -18,6 +19,7 @@ const DestinationDetails = async ({ params }) => {
         price,
         duration,
         description,
+        _id,
     } = destinationData;
 
      const highlights = [
@@ -30,8 +32,9 @@ const DestinationDetails = async ({ params }) => {
 
     return (
          <div className="max-w-7xl rounded-none mx-auto overflow-hidden ">
-          <div className='text-right my-5'>
+          <div className='text-right my-5 flex justify-end items-center gap-3'>
             <EditModal destination = {destinationData} />
+            <DeleteDestination destination = {destinationData} />
           </div>
       {/* Banner Section */}
       <div className="w-full h-[260px] md:h-[350px] overflow-hidden">
