@@ -4,6 +4,7 @@ import { FaCheck, FaMapMarkerAlt, FaRegClock, FaStar } from 'react-icons/fa';
 import { HiArrowRight } from 'react-icons/hi';
 import { Input } from '@heroui/react';
 import Image from 'next/image';
+import EditModal from '@/components/ui/EditModal';
 
 const DestinationDetails = async ({ params }) => {
 
@@ -29,6 +30,9 @@ const DestinationDetails = async ({ params }) => {
 
     return (
          <div className="max-w-7xl rounded-none mx-auto overflow-hidden ">
+          <div className='text-right my-5'>
+            <EditModal destination = {destinationData} />
+          </div>
       {/* Banner Section */}
       <div className="w-full h-[260px] md:h-[350px] overflow-hidden">
         <Image
